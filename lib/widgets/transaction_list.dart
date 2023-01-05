@@ -29,7 +29,7 @@ class TransactionList extends StatelessWidget {
                     'assets/images/waiting.png',
                     fit: BoxFit.cover,
                   ),
-                )
+                ),
               ],
             )
           : ListView.builder(
@@ -54,11 +54,22 @@ class TransactionList extends StatelessWidget {
                       transactions[index].title,
                       style: Theme.of(context).textTheme.headline6,
                     ),
-                    subtitle: Text(
-                      DateFormat.yMMMd().format(transactions[index].date),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          transactions[index].desc,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          DateFormat.yMMMd().format(transactions[index].date),
+                        ),
+                      ],
                     ),
                     trailing: IconButton(
-                      onPressed: () => deleteTx((transactions[index].id)),
+                      onPressed: () => deleteTx(
+                        (transactions[index].id),
+                      ),
                       icon: Icon(Icons.delete),
                       color: Theme.of(context).errorColor,
                     ),

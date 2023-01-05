@@ -95,11 +95,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
+      // isScrollControlled: true,
       context: ctx,
       builder: (_) {
-        return GestureDetector(
-          child: NewTransaction(_addNewTransaction),
-          behavior: HitTestBehavior.opaque,
+        return SingleChildScrollView(
+          // SingleChildScrollView agar bisa di scroll
+          // padding() agar tidak perlu di scroll
+          // reverse: false,
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: GestureDetector(
+            child: NewTransaction(_addNewTransaction),
+            behavior: HitTestBehavior.opaque,
+          ),
         );
       },
     );

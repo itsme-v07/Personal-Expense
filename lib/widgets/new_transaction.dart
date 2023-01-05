@@ -16,7 +16,7 @@ class _NewTransactionState extends State<NewTransaction> {
   final _descController = TextEditingController();
   DateTime? _selectedDate;
 
-  void _kntl() {
+  void _submit() {
     if (_amountController.text.isEmpty) {
       return;
     }
@@ -25,6 +25,9 @@ class _NewTransactionState extends State<NewTransaction> {
     final enteredAmount = double.parse(_amountController.text);
 
     if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
+      return;
+    }
+    if (enteredDesc.isEmpty) {
       return;
     }
 
@@ -57,65 +60,63 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 3,
-      child: Card(
-        elevation: 5,
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              TextField(
-                decoration: InputDecoration(labelText: 'Title'),
-                controller: _titleController,
-                onSubmitted: (_) => _kntl(),
-                // onChanged: (val) {
-                //   titleInput = val;
-                // },
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Amount'),
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                onSubmitted: (_) => _kntl(),
-                // onChanged: (val) => amountInput = val,
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Description'),
-                controller: _descController,
-                onSubmitted: (_) => _kntl(),
-                // onChanged: (val) => amountInput = val,
-              ),
-              Container(
-                height: 70,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        _selectedDate == null
-                            ? 'No Date Chosen!'
-                            : 'Pilih Tanggal: ${DateFormat.yMMMd().format(_selectedDate!)}',
+    return Card(
+      elevation: 5,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            TextField(
+              decoration: InputDecoration(labelText: 'Title'),
+              controller: _titleController,
+              onSubmitted: (_) => _submit(),
+              // onChanged: (val) {
+              //   titleInput = val;
+              // },
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: 'Amount'),
+              controller: _amountController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => _submit(),
+              // onChanged: (val) => amountInput = val,
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: 'Description'),
+              controller: _descController,
+              onSubmitted: (_) => _submit(),
+              // onChanged: (val) => amountInput = val,
+            ),
+            Container(
+              height: 70,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'No Date Chosen!'
+                          : 'Pilih Tanggal: ${DateFormat.yMMMd().format(_selectedDate!)}',
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: _pilihtanggal,
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    TextButton(
-                      onPressed: _pilihtanggal,
-                      child: Text(
-                        'Choose Date',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
-              ElevatedButton(
-                child: Text('Add Transaction'),
-                onPressed: _kntl,
-              ),
-            ],
-          ),
+            ),
+            ElevatedButton(
+              child: Text('Add Transaction'),
+              onPressed: _submit,
+            ),
+          ],
         ),
       ),
     );
